@@ -82,6 +82,12 @@
       <geom name="front_depth_camera_visual" type="box" pos="0 0 0"
         size="0.0125 0.045 0.0125"
         contype="0" conaffinity="0" group="1" rgba="0 0 0 0" />
+
+      <!-- >>> EXTERNAL PAYLOAD EXPERIMENT (added) >>>
+        Edit unitree_robots/go2/payload.xml to change the condition.
+        To restore stock behaviour, delete these three lines. -->
+      <include file="payload.xml"/>
+      <!-- <<< EXTERNAL PAYLOAD EXPERIMENT <<< -->
       <body name="FL_hip" pos="0.1934 0.0465 0">
         <inertial pos="-0.0054 0.00194 -0.000105" quat="0.497014 0.499245 0.505462 0.498237"
           mass="0.678"
@@ -253,6 +259,16 @@
       </body>
     </body>
   </worldbody>
+
+  <!-- >>> EXTERNAL PAYLOAD EXPERIMENT (added) >>>
+    Explicit contact pairs for a loose payload.  They have to live at model
+    level, and they are required rather than optional: a basket welded into
+    base_link becomes the cargo's parent weld body, and MuJoCo's filterparent
+    flag drops body-versus-parent contacts, so automatic collision detection
+    never generates them.  An explicit pair bypasses both that filter and
+    contype/conaffinity.  Generated together with payload.xml. -->
+  <include file="payload_contacts.xml"/>
+  <!-- <<< EXTERNAL PAYLOAD EXPERIMENT <<< -->
 
   <actuator>
     <motor class="abduction" name="FR_hip" joint="FR_hip_joint" />
